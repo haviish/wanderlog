@@ -1,17 +1,18 @@
-[wanderlog_web_app_for_custom_domain.html](https://github.com/user-attachments/files/33515576/wanderlog_web_app_for_custom_domain.html)
+[wanderlog_web_app_for_custom_domain.html](https://github.com/user-attachments/files/33515620/wanderlog_web_app_for_custom_domain.html)
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WanderLog - National Parks, States & Travel Passport</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       background-color: #020617;
       color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
@@ -21,7 +22,6 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen">
   <div id="app" class="min-h-screen flex flex-col">
-    <!-- Fallback loader while script boots -->
     <div class="min-h-screen flex flex-col items-center justify-center p-6 space-y-4 text-center">
       <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl animate-pulse">
         🧭
@@ -30,7 +30,6 @@
     </div>
   </div>
 
-  <!-- Notification Toast Container -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <script>
@@ -176,7 +175,6 @@
       badges: safeStorageGet('wl_v2_badges', []),
       trips: safeStorageGet('wl_v2_trips', []),
 
-      // Modals
       showEditNameModal: false,
       showAddProfileModal: false,
       showAddStampModal: false,
@@ -184,13 +182,11 @@
       showAddTripModal: false,
       showDeleteAccountModal: false,
 
-      // Search & Filters
       parkSearch: '',
       parkRegion: 'ALL',
       stateRegion: 'ALL'
     };
 
-    // Pre-populate sign-in email if remembered emails exist
     if (AppState.rememberedEmails && AppState.rememberedEmails.length > 0) {
       AppState.authForm.email = AppState.rememberedEmails[0];
     }
@@ -365,7 +361,6 @@
       NATIONAL_PARKS.forEach(p => { if (AppState.records[`${AppState.activeProfileId}_${p.id}`]?.visited) pkVis++; });
 
       return `
-        <!-- Top Navigation -->
         <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-30 px-4 sm:px-6 py-3 flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center text-slate-950 font-black shadow-md shadow-emerald-500/20">
@@ -378,7 +373,6 @@
           </div>
 
           <div class="flex items-center space-x-2 sm:space-x-3">
-            <!-- Active Traveler Switcher Dropdown -->
             <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1">
               ${renderAvatarHTML(active.avatar, 'w-5 h-5')}
               <select id="traveler-select" class="bg-transparent text-xs font-semibold text-slate-200 outline-none ml-2 cursor-pointer">
@@ -401,7 +395,6 @@
           </div>
         </header>
 
-        <!-- Navigation Tabs -->
         <nav class="bg-slate-900/60 border-b border-slate-800 px-4 flex space-x-2 overflow-x-auto py-2.5">
           ${[
             { id: 'dashboard', label: 'Dashboard', icon: '📊' },
@@ -419,12 +412,10 @@
           `).join('')}
         </nav>
 
-        <!-- Main Body Content -->
         <main class="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-6">
           ${renderTabContent(stVis, pkVis, active)}
         </main>
 
-        <!-- Modals -->
         ${renderActiveModals(active)}
       `;
     }
@@ -531,7 +522,6 @@
                 </div>
               </div>
 
-              <!-- Cartogram 12x7 Grid Map -->
               <div class="overflow-x-auto pb-2">
                 <div class="min-w-[680px] grid grid-cols-12 gap-1.5 p-3 bg-slate-950 rounded-2xl border border-slate-800">
                   ${Array.from({ length: 8 }).map((_, r) => {
@@ -558,7 +548,6 @@
               </div>
             </div>
 
-            <!-- List View with Dropdown Filter -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
               <div class="flex items-center justify-between">
                 <h4 class="font-bold text-sm text-slate-100">All 50 US States Directory</h4>
@@ -1157,7 +1146,6 @@
           saveState();
           render();
         } else {
-          // Sign In
           const acc = (AppState.savedAccounts || []).find(a => a.email === email);
           if (!acc) {
             AppState.authError = 'No account found with this email. Please check your email or Sign Up.';
